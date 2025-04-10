@@ -1,7 +1,10 @@
 package io.zipcoder;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class MonkeyTypewriter {
     public static void main(String[] args) {
+        ReentrantLock lock = new ReentrantLock();
         String introduction = "It was the best of times,\n" +
                 "it was the blurst of times,\n" +
                 "it was the age of wisdom,\n" +
@@ -23,7 +26,20 @@ public class MonkeyTypewriter {
         // Do all of the Monkey / Thread building here
         // For each Copier(one safe and one unsafe), create and start 5 monkeys copying the introduction to
         // A Tale Of Two Cities.
+//        UnsafeCopier unsafeCopy = new UnsafeCopier(introduction);
+//        SafeCopier safeCopy = new SafeCopier(introduction, lock);
 
+        Thread monkey1 = new Thread(new UnsafeCopier(introduction));
+        Thread monkey2 = new Thread(new UnsafeCopier(introduction));
+        Thread monkey3 = new Thread(new UnsafeCopier(introduction));
+        Thread monkey4 = new Thread(new UnsafeCopier(introduction));
+        Thread monkey5 = new Thread(new UnsafeCopier(introduction));
+
+        Thread chimp1 = new Thread(new SafeCopier(introduction, lock));
+        Thread chimp2 = new Thread(new SafeCopier(introduction, lock));
+        Thread chimp3 = new Thread(new SafeCopier(introduction, lock));
+        Thread chimp4 = new Thread(new SafeCopier(introduction, lock));
+        Thread chimp5 = new Thread(new SafeCopier(introduction, lock));
 
         // This wait is here because main is still a thread and we want the main method to print the finished copies
         // after enough time has passed.
@@ -34,5 +50,24 @@ public class MonkeyTypewriter {
         }
 
         // Print out the copied versions here.
+
+        System.out.println("Unsafe copy:");
+        monkey1.run();
+        monkey2.run();
+        monkey3.run();
+        monkey4.run();
+        monkey5.run();
+        //returning expected outcome
+
+        System.out.println("Safe copy:");
+        chimp1.run();
+        chimp2.run();
+        chimp3.run();
+        chimp4.run();
+        chimp5.run();
+        //needs to only print one time
+        //make an instance var for SafeCopier and use that as the argument for the threads?
+        //then sout(safeCopy.copied)?
+        //or does the implementation of both classes in main have to match?
     }
 }
