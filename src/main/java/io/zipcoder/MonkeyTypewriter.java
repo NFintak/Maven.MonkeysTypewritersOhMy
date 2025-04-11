@@ -27,7 +27,7 @@ public class MonkeyTypewriter {
         // For each Copier(one safe and one unsafe), create and start 5 monkeys copying the introduction to
         // A Tale Of Two Cities.
 //        UnsafeCopier unsafeCopy = new UnsafeCopier(introduction);
-//        SafeCopier safeCopy = new SafeCopier(introduction, lock);
+        SafeCopier safeCopy = new SafeCopier(introduction, lock);
 
         Thread monkey1 = new Thread(new UnsafeCopier(introduction));
         Thread monkey2 = new Thread(new UnsafeCopier(introduction));
@@ -35,11 +35,11 @@ public class MonkeyTypewriter {
         Thread monkey4 = new Thread(new UnsafeCopier(introduction));
         Thread monkey5 = new Thread(new UnsafeCopier(introduction));
 
-        Thread chimp1 = new Thread(new SafeCopier(introduction, lock));
-        Thread chimp2 = new Thread(new SafeCopier(introduction, lock));
-        Thread chimp3 = new Thread(new SafeCopier(introduction, lock));
-        Thread chimp4 = new Thread(new SafeCopier(introduction, lock));
-        Thread chimp5 = new Thread(new SafeCopier(introduction, lock));
+        Thread chimp1 = new Thread(safeCopy);
+        Thread chimp2 = new Thread(safeCopy);
+        Thread chimp3 = new Thread(safeCopy);
+        Thread chimp4 = new Thread(safeCopy);
+        Thread chimp5 = new Thread(safeCopy);
 
         // This wait is here because main is still a thread and we want the main method to print the finished copies
         // after enough time has passed.
@@ -65,6 +65,8 @@ public class MonkeyTypewriter {
         chimp3.run();
         chimp4.run();
         chimp5.run();
+        System.out.println(safeCopy.copied);
+
         //needs to only print one time
         //make an instance var for SafeCopier and use that as the argument for the threads?
         //then sout(safeCopy.copied)?

@@ -19,6 +19,5 @@ public class SafeCopier extends Copier {
             this.copied += this.stringIterator.next() + " ";
         }
         lock.unlock();
-        System.out.println(this.copied);
     }
 }
